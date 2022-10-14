@@ -67,6 +67,7 @@ flutter:
     - assets/pop_up/great.png
     - assets/pop_up/meh.png
     - assets/pop_up/bad.png
+    - assets/test.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
