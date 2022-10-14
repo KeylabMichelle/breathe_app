@@ -51,7 +51,7 @@ class EmployeeProfile extends StatelessWidget {
                           );
                         },
                         style: TextButton.styleFrom(
-                          primary: Colors.white,
+                          foregroundColor: Colors.white,
                           backgroundColor: Colors.transparent,
                         ),
                         icon: Icon(
