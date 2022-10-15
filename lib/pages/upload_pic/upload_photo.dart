@@ -173,7 +173,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
                               ),
                             ),
                             const Text(
-                              '  Share with my followers',
+                              '  Share on Facebook',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 12),
                             ),
@@ -204,7 +204,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
                               ),
                             ),
                             const Text(
-                              '  Share with my friends',
+                              '  Share on Twitter',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 12),
                             ),
