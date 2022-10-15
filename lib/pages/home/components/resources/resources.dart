@@ -1,5 +1,3 @@
-//stateful widget Resources
-
 import 'package:flutter/material.dart';
 
 class Resources extends StatefulWidget {
@@ -12,7 +10,6 @@ class _ResourcesState extends State<Resources> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(top: 10, bottom: 40),
         child: Column(
           children: [
             Container(
@@ -48,7 +45,7 @@ class _ResourcesState extends State<Resources> {
                 ),
               ),
             ),
-            Flexible(
+            Expanded(
               child: ListView.builder(
                 itemCount: 10,
                 scrollDirection: Axis.horizontal,
@@ -61,7 +58,6 @@ class _ResourcesState extends State<Resources> {
                           'assets/test.png',
                           height: 100,
                           width: 100,
-                          fit: BoxFit.fill,
                           alignment: Alignment.centerLeft,
                         ),
                       ),
@@ -99,7 +95,7 @@ class _ResourcesState extends State<Resources> {
                 ),
               ),
             ),
-            Flexible(
+            Expanded(
               child: ListView.builder(
                 itemCount: 10,
                 scrollDirection: Axis.horizontal,
