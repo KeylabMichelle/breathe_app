@@ -261,7 +261,6 @@ class _UploadPhotoState extends State<UploadPhoto> {
               SizedBox(
                 height: 30,
               ),
-              //Container with 2 text buttons aligned start and end
               Container(
                 width: MediaQuery.of(context).size.width * 0.8,
                 padding: const EdgeInsets.only(left: 20.0, right: 20.0),
