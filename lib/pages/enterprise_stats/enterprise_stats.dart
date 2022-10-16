@@ -1,17 +1,48 @@
-import 'package:breathe/pages/employee_profile/employee_history.dart';
+import 'package:breathe/pages/components/dropdown.dart';
 import 'package:breathe/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../components/dropdown.dart';
-
-class EmployeeProfile extends StatelessWidget {
-  const EmployeeProfile({
+class EnterpriseStats extends StatelessWidget {
+  const EnterpriseStats({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    
+    List<Map> dummyItems= [
+      
+      {
+        "stat": "Great",
+        "image": 'assets/pop_up/great.png',
+        "percent": 10
+      },
+
+      {
+        "stat": "Fine",
+        "image": 'assets/pop_up/fine.png',
+        "percent": 80
+      },
+
+      {
+        "stat": "Meh",
+        "image": 'assets/pop_up/meh.png',
+        "percent": 10
+      },
+      
+      {
+        "stat": "Bad",
+        "image": 'assets/pop_up/bad.png',
+        "percent": 0
+      },
+      
+
+        
+    ];
+
+
+
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -37,11 +68,7 @@ class EmployeeProfile extends StatelessWidget {
             actions: [
               DropDown()
             ],
-            
           ),
-
-          
-          
           body: Column(
             children: [
               Padding(
@@ -73,16 +100,13 @@ class EmployeeProfile extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(13.0),
                 child: Column(
                   children: [
                     Row(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text('Hi! Louis Peterson',
-                              style: TextStyle(fontSize: 23)),
-                        ),
+                        Text('Statistics.',
+                            style: TextStyle(fontSize: 23)),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -92,98 +116,75 @@ class EmployeeProfile extends StatelessWidget {
                         Column(
                           children: [
                             Container(
-                              margin: const EdgeInsets.only(left: 8.0),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(20.0),
                                 child: Image.asset(
-                                  'assets/pop_up/great.png',
-                                  height: 80,
-                                  width: 80,
+                                  'assets/pop_up/fine.png',
+                                  height: 50,
+                                  width: 50,
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
                             SizedBox(height: 10),
-                            Text('Great', style: TextStyle(fontSize: 18)),
+                            Text('Fine', style: TextStyle(fontSize: 18)),
                           ],
                         ),
                         Column(
                           children: [
-                            Text('Your average status', style: TextStyle(fontSize: 20)), 
+                            Text('Average status.',
+                                style: TextStyle(fontSize: 20)),
                             SizedBox(height: 15),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const EmployeeHistory()),
-                                );
-                              
-                              },
-                              style: TextButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                backgroundColor: Colors.transparent,
-                                
-                              ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
                               child: Text(
-                                'See your history',
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline, fontSize: 15),
+                                'Fine, looking healthy! But be careful',
+                                style: TextStyle(fontSize: 15),
                               ),
                             ),
-                          
                           ],
                         ),
                       ],
                     ),
-                    
                     SizedBox(height: 20),
-
-
                     Row(
                       children: [
-                        Text('Need help?', style: TextStyle( color: Colors.grey)),
+                        Text('All', style: TextStyle(fontSize: 20)),
                       ],
                     ),
-
-                    SizedBox(height: 20),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        
-                        Column(
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.health_and_safety),
-                              iconSize: 30,
-                              color: Colors.white,
-                            ),
-                            Text('Therapist', style: TextStyle(color: Colors.white)),
-                          ],
-                        ),
-
-                        Column(
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.person),
-                              iconSize: 30,
-                              color: Colors.white,
-                            ),
-                            Text('Human Resources', style: TextStyle(color: Colors.white)),
-                          ],
-                        ),
-                      ],
-                    )
                   ],
                 ),
-              )
+              ),
+              Flexible(
+                      child: ListView.builder(
+                        itemCount: dummyItems.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading: //image with white background
+                                Container(
+                              width: 55,
+                              height: 55,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Image.asset(
+                                  dummyItems[index]["image"],
+                                ),
+                              ),
+                            ),
+                            title: Text(dummyItems[index]['stat']),
+                            subtitle: Text(dummyItems[index]['percent'].toString() + '%'),
+                          );
+                        },
+                      ),
+                    ),
             ],
           )),
     );
