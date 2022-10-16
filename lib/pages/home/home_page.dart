@@ -4,6 +4,8 @@ import 'package:breathe/pages/upload_pic/upload_photo.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../components/dropdown.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({
     Key? key,
@@ -40,6 +42,9 @@ class _HomePageState extends State<HomePage> {
           toolbarHeight: 70,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          actions: [
+              DropDown()
+            ],
         ),
         bottomNavigationBar: BottomAppBar(
           child:

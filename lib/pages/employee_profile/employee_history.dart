@@ -2,6 +2,8 @@ import 'package:breathe/pages/employee_profile/employee_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../components/dropdown.dart';
+
 class EmployeeHistory extends StatelessWidget {
   const EmployeeHistory({
     Key? key,
@@ -34,6 +36,9 @@ class EmployeeHistory extends StatelessWidget {
             toolbarHeight: 70,
             backgroundColor: Colors.transparent,
             elevation: 0,
+            actions: [
+              DropDown()
+            ],
           ),
           body: Column(
             children: [

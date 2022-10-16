@@ -1,3 +1,4 @@
+import 'package:breathe/pages/enterprise_stats/enterprise_stats.dart';
 import 'package:breathe/pages/sign_in/sign_in.dart';
 import 'package:breathe/pages/sign_up/sign_up.dart';
 import 'package:breathe/pages/pop_up/pop_up.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
 
-      initialRoute: "pages/employee_profile/employee_profile",
+      initialRoute: "pages/sign_in/sign_in",
 
       routes: {
         "pages/sign_in/sign_in": (context) =>  SignIn(),
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         "pages/home/home_page": (context) =>   HomePage(),
         "pages/employee_profile/employee_history": (context) =>   EmployeeHistory(),
         "pages/employee_profile/employee_profile": (context) =>   EmployeeProfile(),
+        "pages/enterprise_stats/enterprise_stats": (context) =>   EnterpriseStats(),
         
       },
     );

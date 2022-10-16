@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../components/dropdown.dart';
+
 class UploadPhoto extends StatefulWidget {
   @override
   _UploadPhotoState createState() => _UploadPhotoState();
@@ -25,6 +27,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
         toolbarHeight: 70,
         backgroundColor: Color.fromARGB(255, 21, 21, 21),
         elevation: 0,
+        actions: [DropDown()],
       ),
       body: Container(
         padding: const EdgeInsets.all(20.0),

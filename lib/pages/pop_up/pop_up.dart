@@ -79,7 +79,7 @@ class _PopUpState extends State<PopUp> {
                             });
                           },
                           icon: Image.asset('assets/pop_up/great.png'),
-                          iconSize: 50,
+                          iconSize: 60,
                         ),
                         GestureDetector(
                             onTap: () {
@@ -147,7 +147,7 @@ class _PopUpState extends State<PopUp> {
                             });
                           },
                           icon: Image.asset('assets/pop_up/meh.png'),
-                          iconSize: 50,
+                          iconSize: 60,
                         ),
                         GestureDetector(
                             onTap: () {
