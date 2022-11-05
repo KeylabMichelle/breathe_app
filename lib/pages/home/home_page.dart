@@ -1,7 +1,11 @@
 import 'package:breathe/pages/home/components/posts/posts.dart';
 import 'package:breathe/pages/home/components/resources/resources.dart';
+import 'package:breathe/pages/sign_in/sign_in.dart';
+import 'package:breathe/pages/sign_up/bloc/auth_bloc.dart';
 import 'package:breathe/pages/upload_pic/upload_photo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../components/dropdown.dart';
@@ -22,6 +26,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
+    final user = FirebaseAuth.instance.currentUser!;
+
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Colors.white,
@@ -42,9 +49,7 @@ class _HomePageState extends State<HomePage> {
           toolbarHeight: 70,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          actions: [
-              DropDown()
-            ],
+          actions: [DropDown()],
         ),
         bottomNavigationBar: BottomAppBar(
           child:
@@ -91,88 +96,99 @@ class _HomePageState extends State<HomePage> {
             ),
           ]),
         ),
-        body: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Column(
-            children: [
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          index = 0;
-                        });
-                      },
-                      child: const Text(
-                        'All',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(2)),
+        body: BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is UnAuthenticated) {
+              // Navigate to the sign in screen when the user Signs Out
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => SignIn()),
+                (route) => false,
+              );
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Column(
+              children: [
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            index = 0;
+                          });
+                        },
+                        child: const Text(
+                          'All',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2)),
+                          ),
                         ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          index = 0;
-                        });
-                      },
-                      child: const Text(
-                        'Co-workers',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            index = 0;
+                          });
+                        },
+                        child: const Text(
+                          'Co-workers',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2)),
+                          ),
                         ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          index = 0;
-                        });
-                      },
-                      child: const Text(
-                        'Enterprise',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            index = 0;
+                          });
+                        },
+                        child: const Text(
+                          'Enterprise',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2)),
+                          ),
                         ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          index = 1;
-                        });
-                      },
-                      child: const Text(
-                        'Resources',
-                        style: TextStyle(fontSize: 15),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            index = 1;
+                          });
+                        },
+                        child: const Text(
+                          'Resources',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                        ),
                       ),
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.white,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                  child: IndexedStack(index: index, children: [
-                Posts(),
-                Resources(),
-              ])),
-            ],
+                Expanded(
+                    child: IndexedStack(index: index, children: [
+                  Posts(),
+                  Resources(),
+                ])),
+              ],
+            ),
           ),
         ),
       ),
