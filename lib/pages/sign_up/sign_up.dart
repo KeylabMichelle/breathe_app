@@ -1,7 +1,12 @@
-import 'package:breathe/pages/pop_up/pop_up.dart';
 import 'package:breathe/pages/sign_in/sign_in.dart';
+import 'package:breathe/pages/sign_up/auth_repository.dart';
+import 'package:breathe/pages/sign_up/bloc/auth_bloc.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../pop_up/pop_up.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -12,225 +17,67 @@ class _SignUpState extends State<SignUp> {
   bool passwordObscure = true;
   bool passwordObscure2 = true;
 
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Colors.white,
-        scaffoldBackgroundColor: Color.fromARGB(255, 21, 21, 21),
-        fontFamily: GoogleFonts.inter().fontFamily,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Breathe',
-            style: TextStyle(fontSize: 25),
+    return RepositoryProvider(
+      create: (context) => AuthRepository(),
+      child: BlocProvider(
+        create: (context) => AuthBloc(
+            authRepository: RepositoryProvider.of<AuthRepository>(context)),
+        child: MaterialApp(
+          theme: ThemeData(
+            brightness: Brightness.dark,
+            primaryColor: Colors.white,
+            scaffoldBackgroundColor: Color.fromARGB(255, 21, 21, 21),
+            fontFamily: GoogleFonts.inter().fontFamily,
           ),
-          leading: Container(
-            padding: const EdgeInsets.all(7.0),
-            margin: const EdgeInsets.only(left: 5.0),
-            child: Image.asset('assets/appbar/harmony.png'),
-          ),
-          toolbarHeight: 70,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          actions: [
-            //outlined button
-            Container(
-              padding: const EdgeInsets.only(top: 18.0, bottom: 18),
-              margin: const EdgeInsets.only(right: 15.0),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignIn()),
-                        );
-                      },
-                      child: const Text(
-                        'Sign In',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        side: const BorderSide(color: Colors.white, width: 1),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(2)),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+          home: Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                'Breathe',
+                style: TextStyle(fontSize: 25),
               ),
-            ),
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.only(left: 50, right: 50),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Welcome, sign up.',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                ),
-
-                /* First name */
-
-                Padding(
-                  padding: const EdgeInsets.only(top: 40.0, bottom: 15),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'First Name',
-                      labelStyle: TextStyle(
-                          color: Color.fromARGB(141, 255, 255, 255),
-                          fontSize: 14),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-
-                /* Last name */
-
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Last Name',
-                      labelStyle: TextStyle(
-                          color: Color.fromARGB(141, 255, 255, 255),
-                          fontSize: 14),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-
-                /* Email */
-
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      labelStyle: TextStyle(
-                          color: Color.fromARGB(141, 255, 255, 255),
-                          fontSize: 14),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-
-                /* Password */
-
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: TextField(
-                    obscureText: passwordObscure,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      labelStyle: TextStyle(
-                          color: Color.fromARGB(141, 255, 255, 255),
-                          fontSize: 14),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            passwordObscure = !passwordObscure;
-                          });
-                        },
-                        icon: passwordObscure
-                            ? const Icon(Icons.visibility_outlined)
-                            : const Icon(Icons.visibility_off_outlined),
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-
-                /* Confirm password */
-
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: TextField(
-                    obscureText: passwordObscure2,
-                    decoration: InputDecoration(
-                      labelText: 'Confirm password',
-                      labelStyle: TextStyle(
-                          color: Color.fromARGB(141, 255, 255, 255),
-                          fontSize: 14),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            passwordObscure2 = !passwordObscure2;
-                          });
-                        },
-                        icon: passwordObscure2
-                            ? const Icon(Icons.visibility_outlined)
-                            : const Icon(Icons.visibility_off_outlined),
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 30.0, left: 50, right: 50),
-                  child: Row(
+              leading: Container(
+                padding: const EdgeInsets.all(7.0),
+                margin: const EdgeInsets.only(left: 5.0),
+                child: Image.asset('assets/appbar/harmony.png'),
+              ),
+              toolbarHeight: 70,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              actions: [
+                //outlined button
+                Container(
+                  padding: const EdgeInsets.only(top: 18.0, bottom: 18),
+                  margin: const EdgeInsets.only(right: 15.0),
+                  child: Column(
                     children: [
                       Expanded(
-                        child: ElevatedButton(
+                        child: OutlinedButton(
                           onPressed: () {
                             Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const PopUp()),
-                          );
+                              context,
+                              MaterialPageRoute(builder: (context) => SignIn()),
+                            );
                           },
                           child: const Text(
-                            'Sign Up',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
+                            'Sign In',
+                            style: TextStyle(fontSize: 12),
                           ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.black,
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            side:
+                                const BorderSide(color: Colors.white, width: 1),
                             shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(2)),
@@ -242,6 +89,210 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ],
+            ),
+            body: BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is Authenticated) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PopUp()),
+                  );
+                }
+                if (state is AuthError) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(state.error)));
+                }
+              },
+              builder: (context, state) {
+                if (state is Loading) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (state is UnAuthenticated) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 50, right: 50),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Welcome, sign up.',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          /* First name */
+
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 40.0, bottom: 15),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                labelText: 'First Name',
+                                labelStyle: TextStyle(
+                                    color: Color.fromARGB(141, 255, 255, 255),
+                                    fontSize: 14),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          /* Last name */
+
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 15),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                labelText: 'Last Name',
+                                labelStyle: TextStyle(
+                                    color: Color.fromARGB(141, 255, 255, 255),
+                                    fontSize: 14),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          /* Email */
+
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 15),
+                            child: TextField(
+                              controller: emailController,
+                              decoration: InputDecoration(
+                                labelText: 'Email',
+                                labelStyle: TextStyle(
+                                    color: Color.fromARGB(141, 255, 255, 255),
+                                    fontSize: 14),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          /* Password */
+
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 15),
+                            child: TextField(
+                              obscureText: passwordObscure,
+                              decoration: InputDecoration(
+                                labelText: 'Password',
+                                labelStyle: TextStyle(
+                                    color: Color.fromARGB(141, 255, 255, 255),
+                                    fontSize: 14),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      passwordObscure = !passwordObscure;
+                                    });
+                                  },
+                                  icon: passwordObscure
+                                      ? const Icon(Icons.visibility_outlined)
+                                      : const Icon(
+                                          Icons.visibility_off_outlined),
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          /* Confirm password */
+
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 15),
+                            child: TextField(
+                              controller: passwordController,
+                              obscureText: passwordObscure2,
+                              decoration: InputDecoration(
+                                labelText: 'Confirm password',
+                                labelStyle: TextStyle(
+                                    color: Color.fromARGB(141, 255, 255, 255),
+                                    fontSize: 14),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      passwordObscure2 = !passwordObscure2;
+                                    });
+                                  },
+                                  icon: passwordObscure2
+                                      ? const Icon(Icons.visibility_outlined)
+                                      : const Icon(
+                                          Icons.visibility_off_outlined),
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 30.0, left: 50, right: 50),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      BlocProvider.of<AuthBloc>(context).add(
+                                        SignUpRequested(emailController.text,
+                                            passwordController.text),
+                                      );
+                                    },
+                                    child: const Text(
+                                      'Sign Up',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.white,
+                                      foregroundColor: Colors.black,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(2)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                return Container();
+              },
             ),
           ),
         ),

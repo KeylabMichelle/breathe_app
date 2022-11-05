@@ -1,13 +1,13 @@
-
 import 'package:breathe/pages/employee_profile/employee_profile.dart';
 import 'package:breathe/pages/enterprise_stats/enterprise_stats.dart';
 import 'package:breathe/pages/sign_in/sign_in.dart';
+import 'package:breathe/pages/sign_up/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../home/home_page.dart';
 
-const List<String> list = <String>['Home','Stats', 'Profile', 'Log out'];
-
+const List<String> list = <String>['Home', 'Stats', 'Profile', 'Log out'];
 
 class DropDown extends StatefulWidget {
   const DropDown({super.key});
@@ -36,28 +36,24 @@ class _DropDownState extends State<DropDown> {
         onChanged: (String? value) {
           setState(() {
             dropdownValue = value!;
-            if(dropdownValue == 'Home'){
+            if (dropdownValue == 'Home') {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const HomePage()),
               );
-            }
-            else if(dropdownValue == 'Log out'){
+            } else if (dropdownValue == 'Log out') {
+              context.read<AuthBloc>().add(SignOutRequested());
+            } else if (dropdownValue == 'Stats') {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SignIn()),
+                MaterialPageRoute(
+                    builder: (context) => const EnterpriseStats()),
               );
-            }
-            else if(dropdownValue == 'Stats'){
+            } else if (dropdownValue == 'Profile') {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const EnterpriseStats()),
-              );
-            }
-            else if(dropdownValue == 'Profile'){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const EmployeeProfile()),
+                MaterialPageRoute(
+                    builder: (context) => const EmployeeProfile()),
               );
             }
           });
