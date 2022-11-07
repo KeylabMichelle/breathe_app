@@ -1,16 +1,13 @@
-import 'package:breathe/pages/enterprise_stats/enterprise_stats.dart';
 import 'package:breathe/pages/sign_in/sign_in.dart';
-import 'package:breathe/pages/sign_up/auth_repository.dart';
-import 'package:breathe/pages/sign_up/bloc/auth_bloc.dart';
-import 'package:breathe/pages/sign_up/sign_up.dart';
+import 'package:breathe/repositories/auth/auth_repository.dart';
+
 import 'package:breathe/pages/pop_up/pop_up.dart';
-import 'package:breathe/pages/home/home_page.dart';
-import 'package:breathe/pages/employee_profile/employee_profile.dart';
-import 'package:breathe/pages/employee_profile/employee_history.dart';
+
+import 'package:breathe/repositories/auth/bloc/auth_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {

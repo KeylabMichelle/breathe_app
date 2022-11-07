@@ -1,6 +1,6 @@
 import 'package:breathe/pages/sign_in/sign_in.dart';
-import 'package:breathe/pages/sign_up/auth_repository.dart';
-import 'package:breathe/pages/sign_up/bloc/auth_bloc.dart';
+import 'package:breathe/repositories/auth/auth_repository.dart';
+import 'package:breathe/repositories/auth/bloc/auth_bloc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,13 +17,19 @@ class _SignUpState extends State<SignUp> {
   bool passwordObscure = true;
   bool passwordObscure2 = true;
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordController2 = TextEditingController();
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _passwordController2.dispose();
     super.dispose();
   }
 
@@ -105,7 +111,10 @@ class _SignUpState extends State<SignUp> {
               },
               builder: (context, state) {
                 if (state is Loading) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                      child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ));
                 }
                 if (state is UnAuthenticated) {
                   return Padding(
@@ -132,6 +141,7 @@ class _SignUpState extends State<SignUp> {
                             padding:
                                 const EdgeInsets.only(top: 40.0, bottom: 15),
                             child: TextField(
+                              controller: _firstNameController,
                               decoration: InputDecoration(
                                 labelText: 'First Name',
                                 labelStyle: TextStyle(
@@ -152,6 +162,7 @@ class _SignUpState extends State<SignUp> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 15),
                             child: TextField(
+                              controller: _lastNameController,
                               decoration: InputDecoration(
                                 labelText: 'Last Name',
                                 labelStyle: TextStyle(
@@ -172,7 +183,7 @@ class _SignUpState extends State<SignUp> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 15),
                             child: TextField(
-                              controller: emailController,
+                              controller: _emailController,
                               decoration: InputDecoration(
                                 labelText: 'Email',
                                 labelStyle: TextStyle(
@@ -193,6 +204,7 @@ class _SignUpState extends State<SignUp> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 15),
                             child: TextField(
+                              controller: _passwordController,
                               obscureText: passwordObscure,
                               decoration: InputDecoration(
                                 labelText: 'Password',
@@ -226,7 +238,7 @@ class _SignUpState extends State<SignUp> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 15),
                             child: TextField(
-                              controller: passwordController,
+                              controller: _passwordController2,
                               obscureText: passwordObscure2,
                               decoration: InputDecoration(
                                 labelText: 'Confirm password',
@@ -262,10 +274,29 @@ class _SignUpState extends State<SignUp> {
                                 Expanded(
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      BlocProvider.of<AuthBloc>(context).add(
-                                        SignUpRequested(emailController.text,
-                                            passwordController.text),
-                                      );
+                                      if (_firstNameController.text.isEmpty ||
+                                          _lastNameController.text.isEmpty ||
+                                          _emailController.text.isEmpty ||
+                                          _passwordController.text.isEmpty) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content: Text(
+                                                    'Please fill all the fields')));
+                                      } else if (_passwordController.text !=
+                                          _passwordController2.text) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content: Text(
+                                                    'Passwords do not match')));
+                                      } else {
+                                        BlocProvider.of<AuthBloc>(context).add(
+                                          SignUpRequested(
+                                              _emailController.text,
+                                              _passwordController.text,
+                                              _firstNameController.text,
+                                              _lastNameController.text),
+                                        );
+                                      }
                                     },
                                     child: const Text(
                                       'Sign Up',

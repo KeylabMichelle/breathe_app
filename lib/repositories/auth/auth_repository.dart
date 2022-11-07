@@ -1,12 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepository {
   final _firebaseAuth = FirebaseAuth.instance;
 
-  Future<void> signUp({required String email, required String password}) async {
+  Future<void> signUp(
+      {required String email,
+      required String password,
+      required String firstName,
+      required String lastName}) async {
     try {
       await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => {
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(value.user!.uid)
+                    .set({
+                  'firstName': firstName,
+                  'lastName': lastName,
+                  'email': email,
+                  'uid': value.user!.uid,
+                  'createdAt': DateTime.now(),
+                  'updatedAt': DateTime.now(),
+                })
+              });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         throw Exception('The account already exists for that email.');
@@ -24,6 +42,8 @@ class AuthRepository {
       print('email: $email, password: $password');
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+
+      print(FirebaseAuth.instance.currentUser!);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         throw Exception('No user found for that email.');

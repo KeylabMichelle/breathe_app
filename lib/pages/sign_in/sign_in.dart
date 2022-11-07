@@ -1,6 +1,6 @@
 import 'package:breathe/pages/pop_up/pop_up.dart';
-import 'package:breathe/pages/sign_up/bloc/auth_bloc.dart';
 import 'package:breathe/pages/sign_up/sign_up.dart';
+import 'package:breathe/repositories/auth/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -101,7 +101,9 @@ class _SignInState extends State<SignIn> {
               if (state is Loading) {
                 // Showing the loading indicator while the user is signing in
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
                 );
               }
 
