@@ -1,9 +1,8 @@
 import 'package:breathe/pages/home/components/posts/posts.dart';
 import 'package:breathe/pages/home/components/resources/resources.dart';
 import 'package:breathe/pages/sign_in/sign_in.dart';
-import 'package:breathe/pages/sign_up/bloc/auth_bloc.dart';
 import 'package:breathe/pages/upload_pic/upload_photo.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:breathe/repositories/auth/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,9 +25,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    final user = FirebaseAuth.instance.currentUser!;
-
+    //final user = FirebaseAuth.instance.currentUser!;
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Colors.white,
@@ -99,7 +96,6 @@ class _HomePageState extends State<HomePage> {
         body: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is UnAuthenticated) {
-              // Navigate to the sign in screen when the user Signs Out
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => SignIn()),
                 (route) => false,
