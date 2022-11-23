@@ -1,6 +1,12 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:breathe/repositories/posts/posts_repository.dart';
+import 'package:flutter/material.dart';
+//file picker
+import 'package:file_picker/file_picker.dart';
 import '../components/dropdown.dart';
+
+import 'package:image_picker/image_picker.dart';
 
 class UploadPhoto extends StatefulWidget {
   @override
@@ -10,6 +16,19 @@ class UploadPhoto extends StatefulWidget {
 class _UploadPhotoState extends State<UploadPhoto> {
   bool check1 = false;
   bool check2 = false;
+  final PostsRepository storage = PostsRepository();
+  File? _image;
+  String? _fileName;
+  String? _path;
+
+  TextEditingController _captionController = TextEditingController();
+
+  @override
+  void dispose() {
+    _captionController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,36 +92,81 @@ class _UploadPhotoState extends State<UploadPhoto> {
                         width: 1,
                       ),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.camera_alt_outlined,
-                            color: Colors.white,
-                            size: 30,
+                    child: _image != null
+                        ? Image.file(_image!.absolute)
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.camera_alt_outlined,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                                onPressed: () async {
+                                  final photo = await ImagePicker()
+                                      .pickImage(source: ImageSource.camera);
+
+                                  if (photo == null) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('No file selected'),
+                                      ),
+                                    );
+                                    return null;
+                                  }
+
+                                  _path = photo.path;
+                                  _fileName = photo.name;
+
+                                  setState(() {
+                                    _image = File(_path!);
+                                  });
+                                },
+                              ),
+                              const Text(
+                                'Take a picture',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12),
+                              ),
+                              SizedBox(height: 40),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.photo_outlined,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                                onPressed: () async {
+                                  final photo = await FilePicker.platform
+                                      .pickFiles(
+                                          type: FileType.custom,
+                                          allowMultiple: false,
+                                          allowedExtensions: ['jpg', 'png']);
+
+                                  if (photo == null) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('No file selected'),
+                                      ),
+                                    );
+                                    return null;
+                                  }
+
+                                  _path = photo.files.single.path!;
+                                  _fileName = photo.files.single.name;
+
+                                  setState(() {
+                                    _image = File(_path!);
+                                  });
+                                },
+                              ),
+                              const Text(
+                                'Photo library',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12),
+                              ),
+                            ],
                           ),
-                          onPressed: () {},
-                        ),
-                        const Text(
-                          'Take a picture',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                        SizedBox(height: 40),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.photo_outlined,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                          onPressed: () {},
-                        ),
-                        const Text(
-                          'Photo library',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      ],
-                    ),
                   ),
                 ],
               ),
@@ -126,6 +190,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
                       ),
                     ),
                     child: TextField(
+                      controller: _captionController,
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -249,7 +314,10 @@ class _UploadPhotoState extends State<UploadPhoto> {
                         borderRadius: BorderRadius.circular(2),
                       ),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          storage.createPost(
+                              _captionController.text, _path!, _fileName!);
+                        },
                         child: const Text(
                           'Share',
                           style: TextStyle(
