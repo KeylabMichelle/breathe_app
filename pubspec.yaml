@@ -44,6 +44,7 @@ dependencies:
   file_picker: ^5.2.2
   firebase_storage: ^11.0.6
   image_picker: ^0.8.6
+  share: ^2.0.4
 dependency_overrides:
   firebase_messaging_platform_interface: 
   firebase_crashlytics_platform_interface:

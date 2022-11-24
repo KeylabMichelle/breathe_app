@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:breathe/pages/home/home_page.dart';
 import 'package:breathe/repositories/posts/posts_repository.dart';
 import 'package:flutter/material.dart';
 //file picker
@@ -315,8 +316,27 @@ class _UploadPhotoState extends State<UploadPhoto> {
                       ),
                       child: TextButton(
                         onPressed: () {
-                          storage.createPost(
-                              _captionController.text, _path!, _fileName!);
+                          if (_path == null ||
+                              _captionController.text.isEmpty ||
+                              _fileName == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please fill in all fields'),
+                              ),
+                            );
+                            return null;
+                          } else {
+                            storage
+                                .createPost(
+                                    _captionController.text, _path!, _fileName!)
+                                .then((value) => {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const HomePage()))
+                                    });
+                          }
                         },
                         child: const Text(
                           'Share',

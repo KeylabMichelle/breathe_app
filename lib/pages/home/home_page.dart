@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   bool passwordObscure = true;
 
   int index = 0;
+  String filter = 'all';
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +115,7 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           setState(() {
                             index = 0;
+                            filter = 'all';
                           });
                         },
                         child: const Text(
@@ -131,6 +133,7 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           setState(() {
                             index = 0;
+                            filter = 'coworker';
                           });
                         },
                         child: const Text(
@@ -148,6 +151,7 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           setState(() {
                             index = 0;
+                            filter = 'enterprise';
                           });
                         },
                         child: const Text(
@@ -180,9 +184,14 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Expanded(
                     child: IndexedStack(index: index, children: [
-                  Posts(),
+                  Posts(
+                    filter: filter,
+                  ),
                   Resources(),
                 ])),
+                SizedBox(
+                  height: 15,
+                )
               ],
             ),
           ),
