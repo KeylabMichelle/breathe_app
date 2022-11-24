@@ -38,7 +38,7 @@ class PostsRepository {
           await FirebaseFirestore.instance.collection('posts').add({
         'caption': caption,
         'tag': 'coworker',
-        'likes': 0,
+        'likes': [],
         'user': _firebaseAuth.currentUser!.email,
         'createdAt': DateTime.now(),
         'updatedAt': DateTime.now(),
@@ -62,6 +62,7 @@ class PostsRepository {
         await FirebaseFirestore.instance
             .collection('posts')
             .where('tag', isEqualTo: filter)
+            .orderBy('createdAt', descending: true)
             .get()
             .then((value) => {
                   value.docs.forEach((element) {
@@ -85,6 +86,8 @@ class PostsRepository {
                   })
                 });
 
+        print(_postsCollection);
+
         return _postsCollection;
       } catch (e) {
         throw Exception(e.toString());
@@ -97,20 +100,47 @@ class PostsRepository {
       await FirebaseFirestore.instance
           .collection('posts')
           .doc(postId)
-          .update({'likes': FieldValue.increment(1)});
+          .get()
+          .then((value) => {
+                if (value
+                    .data()!['likes']
+                    .contains(_firebaseAuth.currentUser!.email))
+                  {
+                    FirebaseFirestore.instance
+                        .collection('posts')
+                        .doc(postId)
+                        .update({
+                      'likes': FieldValue.arrayRemove(
+                          [_firebaseAuth.currentUser!.email])
+                    })
+                  }
+                else
+                  {
+                    FirebaseFirestore.instance
+                        .collection('posts')
+                        .doc(postId)
+                        .update({
+                      'likes': FieldValue.arrayUnion(
+                          [_firebaseAuth.currentUser!.email])
+                    })
+                  }
+              });
     } catch (e) {
       throw Exception(e.toString());
     }
   }
 
-  Future<void> unlikePost(String postId) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('posts')
-          .doc(postId)
-          .update({'likes': FieldValue.increment(-1)});
-    } catch (e) {
-      throw Exception(e.toString());
-    }
+  bool isLikedByUser(String postId, List<dynamic> likes) {
+    bool isLiked = false;
+
+    print("IS LIKEEEED: $_postsCollection");
+
+    likes.forEach((element) {
+      if (element == _firebaseAuth.currentUser!.email) {
+        isLiked = true;
+      }
+    });
+
+    return isLiked;
   }
 }

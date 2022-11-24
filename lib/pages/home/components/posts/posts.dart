@@ -77,16 +77,22 @@ class _PostsState extends State<Posts> {
                               children: [
                                 Container(
                                   child: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        PostsRepository()
-                                            .likePost(posts[index]['id']);
-                                      });
+                                    onPressed: () async {
+                                      await PostsRepository()
+                                          .likePost(posts[index]['id'])
+                                          .then((value) => {setState(() {})});
                                     },
-                                    icon: Icon(
-                                      Icons.favorite_border,
-                                      color: Colors.white,
-                                    ),
+                                    icon: PostsRepository().isLikedByUser(
+                                            posts[index]['id'],
+                                            posts[index]['likes'])
+                                        ? Icon(
+                                            Icons.favorite,
+                                            color: Colors.white,
+                                          )
+                                        : Icon(
+                                            Icons.favorite_border,
+                                            color: Colors.white,
+                                          ),
                                   ),
                                 ),
                                 Container(
@@ -153,7 +159,7 @@ class _PostsState extends State<Posts> {
                                 Container(
                                   margin: EdgeInsets.only(left: 5),
                                   child: Text(
-                                    posts[index]['likes'].toString(),
+                                    posts[index]['likes'].length.toString(),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12,
