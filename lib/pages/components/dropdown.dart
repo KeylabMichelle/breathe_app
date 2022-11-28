@@ -36,24 +36,13 @@ class _DropDownState extends State<DropDown> {
           setState(() {
             dropdownValue = value!;
             if (dropdownValue == 'Home') {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-              );
+              Navigator.pushNamed(context, 'home');
             } else if (dropdownValue == 'Log out') {
               context.read<AuthBloc>().add(SignOutRequested());
             } else if (dropdownValue == 'Stats') {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const EnterpriseStats()),
-              );
+              Navigator.pushNamed(context, 'stats');
             } else if (dropdownValue == 'Profile') {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const EmployeeProfile()),
-              );
+              Navigator.pushNamed(context, 'profile');
             }
           });
         },

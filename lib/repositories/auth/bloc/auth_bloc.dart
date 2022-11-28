@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:breathe/repositories/states/states_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import '../../../repositories/auth/auth_repository.dart';
@@ -14,7 +15,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         await authRepository.signIn(
             email: event.email, password: event.password);
-        emit(Authenticated());
+
+        await StatesRepository().checkState(DateTime.now()).then((value) {
+          emit(Authenticated(value));
+        });
       } catch (e) {
         emit(AuthError(e.toString()));
         emit(UnAuthenticated());
@@ -28,7 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             password: event.password,
             firstName: event.firstName,
             lastName: event.lastName);
-        emit(Authenticated());
+        emit(Authenticated(true));
       } catch (e) {
         emit(AuthError(e.toString()));
         emit(UnAuthenticated());

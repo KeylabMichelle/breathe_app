@@ -36,50 +36,21 @@ class _UploadPhotoState extends State<UploadPhoto> {
       backgroundColor: Color.fromARGB(255, 21, 21, 21),
       appBar: AppBar(
         title: const Text(
-          'Breathe',
+          'New Post',
           style: TextStyle(fontSize: 25),
         ),
-        leading: Container(
-          padding: const EdgeInsets.all(7.0),
-          margin: const EdgeInsets.only(left: 5.0),
-          child: Image.asset('assets/appbar/harmony.png'),
+        leading: BackButton(
+          color: Colors.white,
         ),
         toolbarHeight: 70,
         backgroundColor: Color.fromARGB(255, 21, 21, 21),
         elevation: 0,
-        actions: [DropDown()],
       ),
       body: Container(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.white,
-                      size: 10,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      'Go back to feed',
-                      style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.white,
-                          decoration: TextDecoration.underline),
-                    ),
-                  ),
-                ],
-              ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

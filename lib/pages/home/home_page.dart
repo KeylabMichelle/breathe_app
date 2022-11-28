@@ -1,12 +1,13 @@
 import 'package:breathe/pages/home/components/posts/posts.dart';
 import 'package:breathe/pages/home/components/resources/resources.dart';
-import 'package:breathe/pages/sign_in/sign_in.dart';
-import 'package:breathe/pages/upload_pic/upload_photo.dart';
+
 import 'package:breathe/repositories/auth/bloc/auth_bloc.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:sidebarx/sidebarx.dart';
 
+import '../../repositories/resources/resources_repository.dart';
 import '../components/dropdown.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,14 +27,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //final user = FirebaseAuth.instance.currentUser!;
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.white,
-        scaffoldBackgroundColor: Color.fromARGB(255, 21, 21, 21),
-        fontFamily: GoogleFonts.inter().fontFamily,
-      ),
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const Text(
             'Breathe',
@@ -47,18 +41,27 @@ class _HomePageState extends State<HomePage> {
           toolbarHeight: 70,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          actions: [DropDown()],
+          actions: [
+            /*  DropDown(), */
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, 'profile');
+                },
+                icon: const Icon(Icons.person)),
+            /* IconButton(
+                onPressed: () {
+                  context.read<AuthBloc>().add(SignOutRequested());
+                },
+                icon: const Icon(Icons.logout)) */
+          ],
         ),
         bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            //Button with an icon and text
             ElevatedButton.icon(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => UploadPhoto()),
-                );
+                Navigator.pushNamed(context, 'upload_photo');
               },
               icon: const Icon(Icons.add),
               label: const Text('New Post'),
@@ -97,10 +100,7 @@ class _HomePageState extends State<HomePage> {
         body: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is UnAuthenticated) {
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => SignIn()),
-                (route) => false,
-              );
+              Navigator.pushNamed(context, 'sign_in');
             }
           },
           child: Padding(
@@ -166,7 +166,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          await ResourcesRepository().getResources();
                           setState(() {
                             index = 1;
                           });
@@ -195,8 +196,6 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

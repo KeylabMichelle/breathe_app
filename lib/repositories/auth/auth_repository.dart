@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class AuthRepository {
   final _firebaseAuth = FirebaseAuth.instance;
@@ -23,7 +24,10 @@ class AuthRepository {
                   'uid': value.user!.uid,
                   'createdAt': DateTime.now(),
                   'updatedAt': DateTime.now(),
-                })
+                }).then((value) => {
+                          FirebaseAuth.instance.currentUser!
+                              .updateDisplayName('$firstName $lastName')
+                        })
               });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
