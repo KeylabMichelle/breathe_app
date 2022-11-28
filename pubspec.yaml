@@ -45,6 +45,7 @@ dependencies:
   firebase_storage: ^11.0.6
   image_picker: ^0.8.6
   share: ^2.0.4
+  sidebarx: ^0.14.0
 dependency_overrides:
   firebase_messaging_platform_interface: 
   firebase_crashlytics_platform_interface:
@@ -61,6 +62,12 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: 
+
+flutter_icons:
+  android: true
+  image_path: "assets/appbar/harmony_black.png"
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

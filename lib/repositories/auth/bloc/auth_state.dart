@@ -9,8 +9,11 @@ class Loading extends AuthState {
 }
 
 class Authenticated extends AuthState {
+  final bool state;
+
+  Authenticated(this.state);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [state];
 }
 
 class UnAuthenticated extends AuthState {

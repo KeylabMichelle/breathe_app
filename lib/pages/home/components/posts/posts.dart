@@ -24,7 +24,7 @@ class _PostsState extends State<Posts> {
             var posts = snapshot.data as List<dynamic>;
             return ListView.builder(
               itemCount: posts.length,
-              cacheExtent: 9999,
+              cacheExtent: 999,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
@@ -52,11 +52,10 @@ class _PostsState extends State<Posts> {
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 20),
-                      child: Image.network(
-                        posts[index]['photoUrl'],
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width,
-                      ),
+                      child: //validate image
+                          posts[index]['img'] != null
+                              ? Image.network(posts[index]['photoUrl'])
+                              : Container(),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 10),

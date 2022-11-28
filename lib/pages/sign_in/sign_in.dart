@@ -1,6 +1,7 @@
 import 'package:breathe/pages/pop_up/pop_up.dart';
 import 'package:breathe/pages/sign_up/sign_up.dart';
 import 'package:breathe/repositories/auth/bloc/auth_bloc.dart';
+import 'package:breathe/repositories/states/states_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,14 +30,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Colors.white,
-        scaffoldBackgroundColor: Color.fromARGB(255, 21, 21, 21),
-        fontFamily: GoogleFonts.inter().fontFamily,
-      ),
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const Text(
             'Breathe',
@@ -60,10 +54,7 @@ class _SignInState extends State<SignIn> {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignUp()),
-                        );
+                        Navigator.pushNamed(context, 'sign_up');
                       },
                       child: const Text(
                         'Sign Up',
@@ -86,12 +77,13 @@ class _SignInState extends State<SignIn> {
         body: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is Authenticated) {
-              // Navigating to the dashboard screen if the user is authenticated
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const PopUp()));
+              if (state.props[0] == true) {
+                Navigator.pushNamed(context, 'home');
+              } else {
+                Navigator.pushNamed(context, 'pop_up');
+              }
             }
             if (state is AuthError) {
-              // Showing the error message if the user has entered invalid credentials
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(state.error)));
             }
@@ -117,7 +109,7 @@ class _SignInState extends State<SignIn> {
                         children: [
                           Text(
                             'Welcome Back.',
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                         ],
                       ),
@@ -125,6 +117,7 @@ class _SignInState extends State<SignIn> {
                         padding: const EdgeInsets.only(top: 50.0, bottom: 15),
                         child: TextField(
                           controller: _emailController,
+                          style: const TextStyle(color: Colors.white),
                           decoration: InputDecoration(
                             labelText: 'Email',
                             labelStyle: TextStyle(
@@ -141,6 +134,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       TextField(
                         controller: _passwordController,
+                        style: const TextStyle(color: Colors.white),
                         obscureText: passwordObscure,
                         decoration: InputDecoration(
                           labelText: 'Password',
@@ -214,8 +208,6 @@ class _SignInState extends State<SignIn> {
               return Container();
             },
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
