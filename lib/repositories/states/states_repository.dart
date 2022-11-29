@@ -83,4 +83,75 @@ class StatesRepository {
       return 'Meh';
     }
   }
+
+  //get averga states for all employees
+  Future<Map> getAverageStateForAll() async {
+    try {
+      var doc = await FirebaseFirestore.instance.collection('users').get();
+      List<dynamic> states = [];
+      doc.docs.forEach((element) {
+        states.add(element.data()['state']);
+      });
+      int great = 0;
+      int bad = 0;
+      int fine = 0;
+      int meh = 0;
+
+      states.forEach((element) {
+        element.forEach((element) {
+          if (element['state'] == 'great') {
+            great++;
+          } else if (element['state'] == 'bad') {
+            bad++;
+          } else if (element['state'] == 'fine') {
+            fine++;
+          } else {
+            meh++;
+          }
+        });
+      });
+
+      //stimate percentage of each state for all employees
+      double greatPercentage = great / (great + bad + fine + meh) * 10;
+      double badPercentage = bad / (great + bad + fine + meh) * 10;
+      double finePercentage = fine / (great + bad + fine + meh) * 10;
+      double mehPercentage = meh / (great + bad + fine + meh) * 10;
+
+      if (great > bad && great > fine && great > meh) {
+        return {
+          'average': 'Great',
+          'great': greatPercentage,
+          'bad': badPercentage,
+          'fine': finePercentage,
+          'meh': mehPercentage
+        };
+      } else if (bad > great && bad > fine && bad > meh) {
+        return {
+          'average': 'Bad',
+          'great': greatPercentage,
+          'bad': badPercentage,
+          'fine': finePercentage,
+          'meh': mehPercentage
+        };
+      } else if (fine > great && fine > bad && fine > meh) {
+        return {
+          'average': 'Fine',
+          'great': greatPercentage,
+          'bad': badPercentage,
+          'fine': finePercentage,
+          'meh': mehPercentage
+        };
+      } else {
+        return {
+          'average': 'Meh',
+          'great': greatPercentage,
+          'bad': badPercentage,
+          'fine': finePercentage,
+          'meh': mehPercentage
+        };
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
 }

@@ -2,6 +2,7 @@ import 'package:breathe/pages/pop_up/pop_up.dart';
 import 'package:breathe/pages/sign_up/sign_up.dart';
 import 'package:breathe/repositories/auth/bloc/auth_bloc.dart';
 import 'package:breathe/repositories/states/states_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,11 +21,13 @@ class _SignInState extends State<SignIn> {
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _restetEmailController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _restetEmailController.dispose();
     super.dispose();
   }
 
@@ -160,9 +163,70 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                       ),
+                      OutlinedButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Enter your email'),
+                                  content: TextField(
+                                    style: const TextStyle(color: Colors.black),
+                                    controller: _restetEmailController,
+                                    decoration: const InputDecoration(
+                                      labelText: 'Email',
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Cancel',
+                                          style:
+                                              TextStyle(color: Colors.black)),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        if (_restetEmailController
+                                            .text.isEmpty) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      'Please enter your credentials')));
+                                        } else {
+                                          FirebaseAuth.instance
+                                              .sendPasswordResetEmail(
+                                                  email: _restetEmailController
+                                                      .text);
+
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text('Email sent')));
+                                          Navigator.pop(context);
+                                        }
+                                      },
+                                      child: const Text('Send',
+                                          style:
+                                              TextStyle(color: Colors.black)),
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2)),
+                          ),
+                        ),
+                      ),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            top: 30.0, left: 50, right: 50),
+                        padding: const EdgeInsets.only(left: 50, right: 50),
                         child: Row(
                           children: [
                             Expanded(

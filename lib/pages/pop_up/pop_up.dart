@@ -228,10 +228,9 @@ class _PopUpState extends State<PopUp> {
                                       .updateState('bad', DateTime.now());
                                 }
 
-                                Navigator.push(
+                                Navigator.pushNamed(
                                   context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const HomePage()),
+                                  "home",
                                 );
                               }
                             : null,

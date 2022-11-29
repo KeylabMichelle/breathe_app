@@ -66,4 +66,26 @@ class AuthRepository {
       throw Exception(e.toString());
     }
   }
+
+  //get isAdmin property validate if property exists
+  Future<bool> isAdmin() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      bool isAdmin = false;
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .get()
+          .then((value) => {
+                if (value.data()!['isAdmin'] != null)
+                  {isAdmin = value.data()!['isAdmin']}
+                else
+                  {isAdmin = false}
+              });
+
+      return isAdmin;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
 }
