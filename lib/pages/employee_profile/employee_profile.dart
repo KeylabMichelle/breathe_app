@@ -1,3 +1,4 @@
+import 'package:breathe/repositories/auth/auth_repository.dart';
 import 'package:breathe/repositories/auth/bloc/auth_bloc.dart';
 import 'package:breathe/repositories/states/states_repository.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class _EmployeeProfileState extends State<EmployeeProfile> {
               onPressed: () {
                 context.read<AuthBloc>().add(SignOutRequested());
               },
-              icon: const Icon(Icons.logout))
+              icon: const Icon(Icons.logout)),
         ],
       ),
       body: FutureBuilder(
@@ -65,7 +66,7 @@ class _EmployeeProfileState extends State<EmployeeProfile> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                                "Hi, ${FirebaseAuth.instance.currentUser!.displayName!}!"
+                                "Hi! ${FirebaseAuth.instance.currentUser!.displayName!}"
                                     .toString(),
                                 style: TextStyle(
                                     fontSize: 23, color: Colors.white)),
