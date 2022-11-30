@@ -17,6 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             email: event.email, password: event.password);
 
         await StatesRepository().checkState(DateTime.now()).then((value) {
+          print(value);
           emit(Authenticated(value));
         });
       } catch (e) {

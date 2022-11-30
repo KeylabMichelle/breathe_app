@@ -1,11 +1,9 @@
-import 'package:breathe/repositories/auth/auth_repository.dart';
 import 'package:breathe/repositories/auth/bloc/auth_bloc.dart';
 import 'package:breathe/repositories/states/states_repository.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../components/dropdown.dart';
 
 class EmployeeProfile extends StatefulWidget {
   const EmployeeProfile({

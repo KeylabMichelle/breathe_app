@@ -12,7 +12,6 @@ class ResourcesRepository {
 
   List<dynamic> get resourcesCollection => _resourcesCollection;
 
-  //get all resources from firebase
   Future<List<dynamic>> getResources() async {
     try {
       await FirebaseFirestore.instance

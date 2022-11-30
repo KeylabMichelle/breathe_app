@@ -1,11 +1,8 @@
-import 'package:breathe/pages/pop_up/pop_up.dart';
-import 'package:breathe/pages/sign_up/sign_up.dart';
 import 'package:breathe/repositories/auth/bloc/auth_bloc.dart';
-import 'package:breathe/repositories/states/states_repository.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({

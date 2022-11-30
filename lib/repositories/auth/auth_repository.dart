@@ -67,7 +67,6 @@ class AuthRepository {
     }
   }
 
-  //get isAdmin property validate if property exists
   Future<bool> isAdmin() async {
     try {
       final user = FirebaseAuth.instance.currentUser;
