@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -39,7 +38,7 @@ class PostsRepository {
         'caption': caption,
         'tag': 'coworker',
         'likes': [],
-        'user': _firebaseAuth.currentUser!.email,
+        'user': _firebaseAuth.currentUser!.displayName,
         'createdAt': DateTime.now(),
         'updatedAt': DateTime.now(),
         'photoUrl': url,

@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:breathe/repositories/posts/posts_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:share/share.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Posts extends StatefulWidget {
   final String filter;
@@ -24,7 +25,7 @@ class _PostsState extends State<Posts> {
             var posts = snapshot.data as List<dynamic>;
             return ListView.builder(
               itemCount: posts.length,
-              cacheExtent: 999,
+              cacheExtent: 9999,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
@@ -53,17 +54,50 @@ class _PostsState extends State<Posts> {
                     Container(
                       margin: EdgeInsets.only(top: 20),
                       child: //validate image
-                          posts[index]['img'] != null
-                              ? Image.network(posts[index]['photoUrl'])
+                          posts[index]['photoUrl'] != null
+                              ? Image.network(
+                                  posts[index]['photoUrl'],
+                                  frameBuilder: (context, child, frame,
+                                      wasSynchronouslyLoaded) {
+                                    return child;
+                                  },
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null)
+                                      return child;
+                                    else {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 400.0,
+                                          height: 300.0,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Color.fromARGB(
+                                                255, 172, 168, 167),
+                                            highlightColor: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            child: Container(
+                                              color: Color.fromARGB(
+                                                  54, 255, 255, 255),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                )
                               : Container(),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 10),
-                      child: Text(
-                        posts[index]['caption'],
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          posts[index]['caption'],
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),

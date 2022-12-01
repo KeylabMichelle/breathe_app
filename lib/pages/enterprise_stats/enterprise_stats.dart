@@ -146,7 +146,7 @@ class _EnterpriseStatsState extends State<EnterpriseStats> {
                     ),
                     title: Text('Great',
                         style: TextStyle(fontSize: 18, color: Colors.white)),
-                    subtitle: Text(data['great'].toString() + '%',
+                    subtitle: Text(data['great'].toStringAsFixed(2) + '%',
                         style: TextStyle(color: Colors.white)),
                   ),
                   ListTile(
@@ -169,7 +169,7 @@ class _EnterpriseStatsState extends State<EnterpriseStats> {
                     ),
                     title: Text('Fine',
                         style: TextStyle(fontSize: 18, color: Colors.white)),
-                    subtitle: Text(data['fine'].toString() + '%',
+                    subtitle: Text(data['fine'].toStringAsFixed(2) + '%',
                         style: TextStyle(color: Colors.white)),
                   ),
                   ListTile(
@@ -192,7 +192,7 @@ class _EnterpriseStatsState extends State<EnterpriseStats> {
                     ),
                     title: Text('Meh',
                         style: TextStyle(fontSize: 18, color: Colors.white)),
-                    subtitle: Text(data['meh'].toString() + '%',
+                    subtitle: Text(data['meh'].toStringAsFixed(2) + '%',
                         style: TextStyle(color: Colors.white)),
                   ),
                   ListTile(
@@ -215,7 +215,7 @@ class _EnterpriseStatsState extends State<EnterpriseStats> {
                     ),
                     title: Text('Bad',
                         style: TextStyle(fontSize: 18, color: Colors.white)),
-                    subtitle: Text(data['bad'].toString() + '%',
+                    subtitle: Text(data['bad'].toStringAsFixed(2) + '%',
                         style: TextStyle(color: Colors.white)),
                   ),
                 ],
