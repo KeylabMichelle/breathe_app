@@ -112,10 +112,10 @@ class StatesRepository {
       });
 
       //stimate percentage of each state for all employees
-      double greatPercentage = great / (great + bad + fine + meh) * 10;
-      double badPercentage = bad / (great + bad + fine + meh) * 10;
-      double finePercentage = fine / (great + bad + fine + meh) * 10;
-      double mehPercentage = meh / (great + bad + fine + meh) * 10;
+      double greatPercentage = great / (great + bad + fine + meh) * 100;
+      double badPercentage = bad / (great + bad + fine + meh) * 100;
+      double finePercentage = fine / (great + bad + fine + meh) * 100;
+      double mehPercentage = meh / (great + bad + fine + meh) * 100;
 
       if (great > bad && great > fine && great > meh) {
         return {

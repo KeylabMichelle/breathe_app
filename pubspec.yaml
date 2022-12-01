@@ -46,6 +46,7 @@ dependencies:
   image_picker: ^0.8.6
   share: ^2.0.4
   sidebarx: ^0.14.0
+  shimmer: ^2.0.0
 dependency_overrides:
   firebase_messaging_platform_interface: 
   firebase_crashlytics_platform_interface:

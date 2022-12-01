@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
       child: BlocProvider(
         create: (context) => AuthBloc(authRepository: AuthRepository()),
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primaryColor: Colors.white,
             scaffoldBackgroundColor: Color.fromARGB(255, 21, 21, 21),

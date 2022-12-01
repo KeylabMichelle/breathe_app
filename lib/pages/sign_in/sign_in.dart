@@ -77,6 +77,7 @@ class _SignInState extends State<SignIn> {
         body: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is Authenticated) {
+              print("PROOOOOOOOOOOPS: ${state.props[0]}");
               if (state.props[0] == true) {
                 Navigator.pushNamed(context, 'home');
               } else {
