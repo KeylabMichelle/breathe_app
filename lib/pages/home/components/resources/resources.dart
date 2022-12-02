@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
+import 'package:url_launcher/url_launcher.dart';
 import 'package:breathe/repositories/resources/resources_repository.dart';
 
 class Resources extends StatefulWidget {
@@ -71,11 +72,26 @@ class _ResourcesState extends State<Resources> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
-                                Image.network(
-                                  resources[0]['music'][index]['image'],
-                                  height: 100,
-                                  width: 100,
-                                  alignment: Alignment.centerLeft,
+                                SizedBox(
+                                  width: 110,
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    var url = Uri.parse(
+                                        resources[0]['music'][index]['url']);
+
+                                    if (await canLaunchUrl(url)) {
+                                      await launchUrl(url);
+                                    } else {
+                                      throw 'Could not launch';
+                                    }
+                                  },
+                                  child: Image.network(
+                                    resources[0]['music'][index]['image'],
+                                    height: 100,
+                                    width: 100,
+                                    alignment: Alignment.centerLeft,
+                                  ),
                                 ),
                                 Text(
                                   resources[0]['music'][index]['name'],
@@ -119,11 +135,26 @@ class _ResourcesState extends State<Resources> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
-                                Image.network(
-                                  resources[0]['blogs'][index]['image'],
-                                  height: 100,
-                                  width: 100,
-                                  alignment: Alignment.centerLeft,
+                                SizedBox(
+                                  width: 110,
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    var url = Uri.parse(
+                                        resources[0]['blogs'][index]['url']);
+
+                                    if (await canLaunchUrl(url)) {
+                                      await launchUrl(url);
+                                    } else {
+                                      throw 'Could not launch';
+                                    }
+                                  },
+                                  child: Image.network(
+                                    resources[0]['blogs'][index]['image'],
+                                    height: 100,
+                                    width: 100,
+                                    alignment: Alignment.centerLeft,
+                                  ),
                                 ),
                                 Text(
                                   resources[0]['blogs'][index]['name'],
@@ -167,12 +198,27 @@ class _ResourcesState extends State<Resources> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
-                                Image.network(
-                                  resources[0]['backround videos'][index]
-                                      ['image'],
-                                  height: 100,
-                                  width: 100,
-                                  alignment: Alignment.centerLeft,
+                                SizedBox(
+                                  width: 110,
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    var url = Uri.parse(resources[0]
+                                        ['backround videos'][index]['url']);
+
+                                    if (await canLaunchUrl(url)) {
+                                      await launchUrl(url);
+                                    } else {
+                                      throw 'Could not launch';
+                                    }
+                                  },
+                                  child: Image.network(
+                                    resources[0]['backround videos'][index]
+                                        ['image'],
+                                    height: 100,
+                                    width: 100,
+                                    alignment: Alignment.centerLeft,
+                                  ),
                                 ),
                                 Text(
                                   resources[0]['backround videos'][index]
@@ -192,6 +238,64 @@ class _ResourcesState extends State<Resources> {
                     Container(
                       child: Divider(
                         color: Colors.white,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Places",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 140,
+                      child: Expanded(
+                        child: ListView.builder(
+                          itemCount: resources[0]['places'].length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                SizedBox(
+                                  width: 110,
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    var url = Uri.parse(
+                                        resources[0]['places'][index]['url']);
+
+                                    if (await canLaunchUrl(url)) {
+                                      await launchUrl(url);
+                                    } else {
+                                      throw 'Could not launch';
+                                    }
+                                  },
+                                  child: Image.network(
+                                    resources[0]['places'][index]['image'],
+                                    height: 100,
+                                    width: 100,
+                                    alignment: Alignment.centerLeft,
+                                  ),
+                                ),
+                                Text(
+                                  resources[0]['places'][index]['name'],
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],

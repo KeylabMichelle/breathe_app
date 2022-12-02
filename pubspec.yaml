@@ -47,6 +47,8 @@ dependencies:
   share: ^2.0.4
   sidebarx: ^0.14.0
   shimmer: ^2.0.0
+  url_launcher: ^6.1.7
+
 dependency_overrides:
   firebase_messaging_platform_interface: 
   firebase_crashlytics_platform_interface:
@@ -59,7 +61,7 @@ dependency_overrides:
   firebase_dynamic_links_platform_interface: 
   firebase_performance_platform_interface: 
   firebase_app_installations_platform_interface: 
-
+ 
 dev_dependencies:
   flutter_test:
     sdk: flutter

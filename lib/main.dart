@@ -48,14 +48,14 @@ class MyApp extends StatelessWidget {
             fontFamily: GoogleFonts.inter().fontFamily,
           ),
           routes: {
-            'sign_up': (context) => SignUp(),
-            'sign_in': (context) => SignIn(),
-            'pop_up': (context) => PopUp(),
-            'home': (context) => HomePage(),
             'profile': (context) => EmployeeProfile(),
             'stats': (context) => EnterpriseStats(),
             'upload_photo': (context) => UploadPhoto(),
             'history': (context) => EmployeeHistory(),
+            'pop_up': (context) => PopUp(),
+            'home': (context) => HomePage(),
+            'sign_up': (context) => SignUp(),
+            'sign_in': (context) => SignIn(),
           },
           home: StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),

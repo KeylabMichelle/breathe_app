@@ -25,7 +25,7 @@ class _PostsState extends State<Posts> {
             var posts = snapshot.data as List<dynamic>;
             return ListView.builder(
               itemCount: posts.length,
-              cacheExtent: 9999,
+              cacheExtent: 999,
               itemBuilder: (context, index) {
                 return Column(
                   children: [

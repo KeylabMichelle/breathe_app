@@ -16,6 +16,27 @@ class PostsRepository {
 
   Future<void> uploadFile(String filePath, String fileName) async {}
 
+  Future<bool> isAdmin() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      bool isAdmin = false;
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .get()
+          .then((value) => {
+                if (value.data()!['isAdmin'] != null)
+                  {isAdmin = value.data()!['isAdmin']}
+                else
+                  {isAdmin = false}
+              });
+
+      return isAdmin;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
   Future<void> createPost(
     String caption,
     String filePath,
@@ -36,7 +57,7 @@ class PostsRepository {
       DocumentReference docRef =
           await FirebaseFirestore.instance.collection('posts').add({
         'caption': caption,
-        'tag': 'coworker',
+        'tag': await isAdmin() ? 'enterprise' : 'coworker',
         'likes': [],
         'user': _firebaseAuth.currentUser!.displayName,
         'createdAt': DateTime.now(),

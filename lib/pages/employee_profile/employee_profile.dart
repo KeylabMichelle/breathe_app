@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EmployeeProfile extends StatefulWidget {
   const EmployeeProfile({
@@ -138,7 +139,14 @@ class _EmployeeProfileState extends State<EmployeeProfile> {
                           Column(
                             children: [
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  var url = Uri.parse("tel:3221668885");
+                                  if (await canLaunchUrl(url)) {
+                                    await launchUrl(url);
+                                  } else {
+                                    throw 'Could not launch $url';
+                                  }
+                                },
                                 icon: Icon(Icons.health_and_safety),
                                 iconSize: 30,
                                 color: Colors.white,
@@ -150,7 +158,14 @@ class _EmployeeProfileState extends State<EmployeeProfile> {
                           Column(
                             children: [
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  var url = Uri.parse("tel:3221668884");
+                                  if (await canLaunchUrl(url)) {
+                                    await launchUrl(url);
+                                  } else {
+                                    throw 'Could not launch $url';
+                                  }
+                                },
                                 icon: Icon(Icons.person),
                                 iconSize: 30,
                                 color: Colors.white,

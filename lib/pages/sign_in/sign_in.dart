@@ -75,7 +75,14 @@ class _SignInState extends State<SignIn> {
           ],
         ),
         body: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
+          listener: (context, state) async {
+            if (state is Loading) {
+              Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              );
+            }
             if (state is Authenticated) {
               print("PROOOOOOOOOOOPS: ${state.props[0]}");
               if (state.props[0] == true) {
@@ -87,6 +94,8 @@ class _SignInState extends State<SignIn> {
             if (state is AuthError) {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(state.error)));
+              await Future.delayed(const Duration(seconds: 2));
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
             }
           },
           child: BlocBuilder<AuthBloc, AuthState>(

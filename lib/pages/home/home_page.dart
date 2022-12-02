@@ -6,6 +6,7 @@ import 'package:breathe/repositories/auth/bloc/auth_bloc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../repositories/resources/resources_repository.dart';
 
@@ -95,7 +96,16 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            var url = Uri.parse(
+                                "https://twitter.com/Alfonso40243026");
+
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url);
+                            } else {
+                              throw 'Could not launch';
+                            }
+                          },
                           child: const Text('Our twitter',
                               style: TextStyle(fontSize: 12)),
                           style: TextButton.styleFrom(
@@ -107,7 +117,16 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            var url = Uri.parse(
+                                "https://www.instagram.com/breathe_flutter/");
+
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url);
+                            } else {
+                              throw 'Could not launch';
+                            }
+                          },
                           child: const Text('Our Instagram',
                               style: TextStyle(fontSize: 12)),
                           style: TextButton.styleFrom(
